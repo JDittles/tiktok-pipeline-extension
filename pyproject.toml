@@ -15,6 +15,7 @@ dependencies = [
     "moviepy>=2.2.1",
     "opencv-python>=4.13.0.92",
     "python-dotenv>=1.2.2",
+    "slowapi>=0.1.9",
     "tavily-python>=0.7.23",
     "uvicorn>=0.46.0",
     "yt-dlp>=2026.3.17",
