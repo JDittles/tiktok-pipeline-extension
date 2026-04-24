@@ -384,9 +384,11 @@
   <script>
     const API_BASE = "https://tiktok-pipeline-747586044805.us-central1.run.app";
 
+    fetch(API_BASE + "/health").catch(() => {});
+
     const EXAMPLE_URLS = [
-      "https://www.tiktok.com/@nbcnews/video/7619508960864832782?q=Hawaii%20Flood&t=1775163541548",
-      "https://www.tiktok.com/@_orgena444/video/7466112076805623070?q=%23hawaiifloods&t=1775615126915",
+      // "https://www.tiktok.com/@nbcnews/video/7619508960864832782?q=Hawaii%20Flood&t=1775163541548",
+      // "https://www.tiktok.com/@_orgena444/video/7466112076805623070?q=%23hawaiifloods&t=1775615126915",
       "https://www.tiktok.com/@caryshicks/video/7619292995883404575?q=%23HawaiiFloods%20need&t=1775616053268",
       "https://www.tiktok.com/@hereinhawaiitv/video/7631290061862079757?q=natural%20disaster%20help%20video&t=1776990758219",
     ];
@@ -523,9 +525,9 @@
     // ── Progress ─────────────────────────────────────────────────────────────
 
     const STEPS = [
-      { id: "step-download", duration: 8000  },
-      { id: "step-extract",  duration: 6000  },
-      { id: "step-classify", duration: 18000 },
+      { id: "step-download", duration: 15000 },
+      { id: "step-extract",  duration: 12000 },
+      { id: "step-classify", duration: 50000 },
     ];
     const TARGETS = [0, 15, 40, 85];
     let progressTimer = null;
@@ -599,7 +601,7 @@
 
       btn.disabled = true;
       status.className = "status";
-      status.textContent = "This takes 20–40 seconds…";
+      status.textContent = "This takes 1–2 minutes…";
       wrap.style.display = "none";
       body.innerHTML = "";
       startProgress();
