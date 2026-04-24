@@ -1,5 +1,6 @@
+import shutil
+import tempfile
 from enum import Enum
-import pprint
 from langchain.messages import HumanMessage
 from langchain_ollama import ChatOllama
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -39,12 +40,15 @@ def classify_video(url: str,
     elif provider == LLMProvider.CLAUDE:
         llm = ChatAnthropic(model_name=model, temperature=0, max_tokens_to_sample=2048, api_key=api_key)
 
-    vid_title, vid_desc, vid_id, vid_path = download_video(url)
-    vid_elements = prepare_gemma4_input(vid_path)
-    prompt = build_prompt(post_title=vid_title, post_desc=vid_desc)
+    tmp_dir = tempfile.mkdtemp()
+    try:
+        vid_title, vid_desc, vid_id, vid_path = download_video(url, save_dir=tmp_dir)
+        vid_elements = prepare_gemma4_input(vid_path)
+        prompt = build_prompt(post_title=vid_title, post_desc=vid_desc)
+        response = llm.invoke(
+            [HumanMessage(content=[{"type": "text", "text": prompt}] + vid_elements)]
+        )
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
 
-    response = llm.invoke(
-        [HumanMessage(content=[{"type": "text", "text": prompt}] + vid_elements)]
-    )
-    # pprint.pprint(f"LLM Response: {response.content}")
     return response.content
