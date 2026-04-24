@@ -330,12 +330,12 @@
 <body>
   <div class="card">
     <h2>Crisis Classifier</h2>
-    <p class="subtitle">Paste a public TikTok URL to classify crisis response content — supplies, personnel, and actions — using AI vision.</p>
+    <p class="subtitle">Paste a public TikTok URL to classify crisis response content as to its actionability and needs using multimodal LLMs deployed via API.</p>
 
     <div class="field">
       <div class="field-label">
         <label for="url">TikTok URL</label>
-        <span class="example-link" id="example-btn">try an example</span>
+        <span class="example-link" id="example-btn">try an example (\@caryshicks is non-actionable, \@hereinhawaiitv is actionable)</span>
       </div>
       <input id="url" type="url" placeholder="https://www.tiktok.com/@user/video/..." />
     </div>
@@ -375,7 +375,10 @@
     <div class="result-wrap" id="result-wrap">
       <div class="result-header">
         <span class="result-title">Result</span>
-        <button class="download-btn" id="download-btn">Download JSON</button>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="download-btn" id="open-btn">Open Video</button>
+          <button class="download-btn" id="download-btn">Download JSON</button>
+        </div>
       </div>
       <div id="result-body"></div>
     </div>
@@ -573,6 +576,11 @@
     // ── Download ─────────────────────────────────────────────────────────────
 
     let lastResult = null;
+    let lastUrl = null;
+
+    document.getElementById("open-btn").addEventListener("click", () => {
+      if (lastUrl) window.open(lastUrl, "_blank", "noopener");
+    });
 
     document.getElementById("download-btn").addEventListener("click", () => {
       if (!lastResult) return;
@@ -643,6 +651,7 @@
           return;
         }
 
+        lastUrl = data.url;
         try { lastResult = JSON.parse(stripFences(data.result)); }
         catch (_) { lastResult = data.result; }
 
