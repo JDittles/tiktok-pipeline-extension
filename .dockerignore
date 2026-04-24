@@ -1,0 +1,12 @@
+.venv/
+downloads/
+experimental/
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.json
+.git/
+.gitignore
+*.ipynb
+README.md

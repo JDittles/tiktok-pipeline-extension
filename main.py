@@ -10,8 +10,11 @@ def main():
         sys.exit(1)
 
     if sys.argv[1] == "--serve":
+        import os
         import uvicorn
-        uvicorn.run("src.api:app", host="0.0.0.0", port=8000, reload=True)
+        port = int(os.environ.get("PORT", 8000))
+        dev = os.environ.get("ENV", "production") == "development"
+        uvicorn.run("src.api:app", host="0.0.0.0", port=port, reload=dev)
     else:
         url = sys.argv[1]
         result = classify_video(url)
