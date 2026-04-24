@@ -14,6 +14,7 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev
 
 COPY src/ ./src/
+COPY embed/ ./embed/
 COPY main.py ./
 
 ENV PATH="/app/.venv/bin:$PATH"
