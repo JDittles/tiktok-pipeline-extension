@@ -2,6 +2,7 @@ import asyncio
 import os
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -99,3 +100,8 @@ async def classify_demo(request: Request, req: ClassifyDemoRequest):  # request 
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/")
+def demo():
+    return FileResponse("embed/demo.html", media_type="text/html")
