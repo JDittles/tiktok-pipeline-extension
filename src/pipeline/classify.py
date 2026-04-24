@@ -51,4 +51,7 @@ def classify_video(url: str,
     finally:
         shutil.rmtree(tmp_dir, ignore_errors=True)
 
-    return response.content
+    content = response.content
+    if isinstance(content, str):
+        content = content.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+    return content
